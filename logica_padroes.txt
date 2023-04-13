@@ -1,0 +1,40 @@
+Lista de elementos
+
+Padroes
+representação ---> [80, 60, 50]
+
+[1, 1, 0]
+[1, 0 ,1]
+[0, 2, 0]
+[0, 1, 1]
+[0, 0, 3]
+
+padrao = int[nBarras]
+padroes = list<padrao>
+desperdicios = list<int>
+desperdicio = molde
+soma = 0
+
+for i in range(barras)
+    padrao[i] += 1
+    soma = b[i]
+    j = i
+    while j < size
+        padrao[j] += 1
+        soma += b[i]
+            if soma >= desperdicio
+                soma -= b[j]
+                padrao[j] -= 1
+                j++
+                desperdicio = molde - soma
+            if desperdicio <= b[2]
+                padroes.add( padrao )
+                desperdicios.add( desperdicio )
+                soma -= b[j]
+                padrao[j] -= 1
+    barras.remove(0)
+
+
+
+
+

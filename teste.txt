@@ -1,0 +1,13 @@
+[1, 0, 1]
+
+soma = 130
+
+
+desperdicio <= b[2]
+	// adiciona
+	soma -= b[j]
+	padroes[j] -= 1
+
+
+[1, 1, 0]
+[1, 0, 1]
