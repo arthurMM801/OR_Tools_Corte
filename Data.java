@@ -1,4 +1,4 @@
-package ModeleoCorte;
+package ModeloCorte;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

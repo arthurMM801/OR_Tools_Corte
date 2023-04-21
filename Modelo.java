@@ -1,4 +1,4 @@
-package ModeleoCorte;
+package ModeloCorte;
 
 
 import com.google.ortools.Loader;
@@ -16,7 +16,7 @@ public class Modelo {
 	
 	public MPObjective objective;
 	public MPSolver solver;
-	public MPVariable[][] x;
+	public MPVariable[] x;
 	public double[] solucao;
 
 	public Modelo(Data data) {
@@ -28,7 +28,7 @@ public class Modelo {
 		ArrayList<int[]> padroes = new ArrayList();
 		ArrayList<Integer> desperdicios = new ArrayList();
 
-		System.out.println("sdfjrnshd");
+		// Criacao dos padrões
 		while( i < data.barras.size()){
 			int[] padrao = new int[data.nBarras];
 			Integer barra1 = data.barras.get(i);
@@ -59,37 +59,59 @@ public class Modelo {
 			i++;
 		}
 
+
+		// Print dos padrões
+		System.out.println();
 		for (i = 0; i < padroes.size(); i++){
-			System.out.printf("padrao: [%d, %d, %d] | desperdicio: %d\n", padroes.get(i)[0], padroes.get(i)[1], padroes.get(i)[2], desperdicios.get(i));
+			System.out.print("Padrao: "+i+": [");
+			for(int j = 0; j < data.nBarras; j++){
+				if(j != data.nBarras-1)
+					System.out.print(padroes.get(i)[j]+", ");
+				else
+					System.out.println(padroes.get(i)[j]+"]");
+			}
+
+		}
+		System.out.println();
+
+
+		// Define Variáveis
+		x = new MPVariable[padroes.size()];
+		for (i = 0; i < padroes.size();i++){
+			x[i] = solver.makeIntVar(0, infinity, "Padrao ["+(i+1)+"]");
 		}
 
-		x = new MPVariable[padroes.size()][data.nBarras];
-		for (i = 0; i < padroes.size();i++){
-			int[] padrao = padroes.get(i);
-			for (int j = 0; j < data.nBarras; j++){
-				x[i][j] = solver.makeIntVar(0, infinity, "Padrao ["+j+"]");
+
+		// Define Restrições
+		for (i = 0; i < data.nBarras; i++) {
+			MPConstraint ct = solver.makeConstraint(data.qBarras[i], infinity, "Barra "+(i+1));
+			for (int j = 0; j < padroes.size(); j++) {
+				ct.setCoefficient(x[j], padroes.get(j)[i]);
 			}
 		}
 
+		// Define Objetivo
+		objective = solver.objective();
+		for (i = 0; i < padroes.size(); i++){
+			objective.setCoefficient(x[i], desperdicios.get(i));
+		}
+		objective.setMinimization();
+
 	}
 	
-//	public void solve(Data data) {
-//		ResultStatus status = solver.solve();
-//		if (status == ResultStatus.OPTIMAL) {
-//			custoSolucao = objective.value();
-//			solucao = new double[data.nTarefas][data.nMaquinas];
-//			for (int i = 0; i < data.nTarefas; i++) {
-//				for (int j = 0; j < data.nMaquinas; j++) {
-//					if (x[i][j].solutionValue() > 0.9) {
-//						solucao[i][j] = 1.0;
-//						System.out.println("Tarefa " + i + " na maquina " + j);
-//					}
-//
-//				}
-//			}
-//		}
-//
-//	}
+	public void solve(Data data) {
+		MPSolver.ResultStatus resultStatus = solver.solve();
+		if (resultStatus == ResultStatus.OPTIMAL) {
+			System.out.println("Solucao:");
+			System.out.println("Custo da funcao objetivo = " + objective.value());
+			for (int i = 0;i < x.length; i++){
+				System.out.println("Padrao "+  (i+1) + " = " + x[i].solutionValue());
+			}
+			System.out.println("Tempo de resolucao = " + solver.wallTime() + " milissegundos");
+			System.out.println(solver.exportModelAsLpFormat());
+		}
+
+	}
 	
 	public void exportModel(String output) throws IOException {
 		FileWriter fw = new FileWriter(output);

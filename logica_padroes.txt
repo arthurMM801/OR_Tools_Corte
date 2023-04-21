@@ -26,7 +26,7 @@ for i in range(barras)
                 soma -= b[j]
                 padrao[j] -= 1
                 j++
-                desperdicio = molde - soma
+            desperdicio = molde - soma
             if desperdicio <= b[2]
                 padroes.add( padrao )
                 desperdicios.add( desperdicio )

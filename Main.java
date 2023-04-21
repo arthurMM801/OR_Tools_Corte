@@ -1,4 +1,4 @@
-package ModeleoCorte;
+package ModeloCorte;
 
 
 import java.io.IOException;
@@ -13,10 +13,7 @@ public class Main {
 
 
 		Modelo corte = new Modelo(data);
-		//alocacao.solve(data);
-		//alocacao.exportModel("modelo_binarioQ4.txt");
-
-		
+		corte.solve(data);
+		corte.exportModel("modelo_Corte.txt");
 	}
-
 }
