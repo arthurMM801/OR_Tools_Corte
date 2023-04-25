@@ -12,9 +12,9 @@ modelo que minimize o desperdício na produção da demanda desejada.
 
 ## variáveis
 
-Sendo xi a quantidade produzida de cada padrão i, com i = 1, 2, 3, 4 e 5.
+Sendo Xi a quantidade produzida de cada padrão i, com i = 1, 2, 3, 4 e 5.
 
-Padrões:
+Padrões:</br>
 p1: 80m – 60m (desperdício = 10m)</br>
 p2: 80m – 50m (desperdício = 20m)</br>
 p3: 60m – 60m (desperdício = 30m)</br>
